@@ -72,9 +72,14 @@ async function main() {
     const contract = await Contract.deployed();
     let hash = "";
     contract.on("SubgraphPublished", async (_name, _hash) => {
-        await deploySubgraph(_name, _hash);
-        await isSynced(_hash);
-        await removeSubgraph(hash)
+        console.log(_name, _hash);
+        try {
+            await deploySubgraph(_name, _hash);
+            await isSynced(_hash);
+            await removeSubgraph(hash)
+        } catch(e) {
+            console.error(e.message);
+        }
         // replace old hash with new hash
         hash = _hash;
     })
@@ -82,4 +87,5 @@ async function main() {
     
 }
 
-deploySubgraph("froid1911/aavegotchi-staking-faster", "QmRULSkFj5PF3YqqvmddKz74fqP3Vp7cBZAFm7PDMr3uxH")
+// deploySubgraph("froid1911/aavegotchi-staking-faster", "QmRULSkFj5PF3YqqvmddKz74fqP3Vp7cBZAFm7PDMr3uxH")
+main();
